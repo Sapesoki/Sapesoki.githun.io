@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Interés Simple y Compuesto</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .calculator-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        h2 {
+            color: #4CAF50;
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input[type="number"], select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .result {
+            background-color: #e8f5e9;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 15px;
+            text-align: center;
+            font-weight: bold;
+            color: #388e3c;
+        }
+        .result p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="calculator-container">
+    <h2>Calculadora de Interés</h2>
+
+    <!-- Selección de tipo de interés -->
+    <label for="tipoInteres">Selecciona el tipo de interés:</label>
+    <select id="tipoInteres" onchange="calcularInteres()">
+        <option value="simple">Interés Simple</option>
+        <option value="compuesto">Interés Compuesto</option>
+    </select>
+
+    <!-- Campos de entrada -->
+    <label for="capital">Capital Inicial ($):</label>
+    <input type="number" id="capital" value="1000" min="0" onchange="calcularInteres()">
+
+    <label for="tasa">Tasa de Interés Anual (%):</label>
+    <input type="number" id="tasa" value="5" min="0" onchange="calcularInteres()">
+
+    <label for="anos">Tiempo en años:</label>
+    <input type="number" id="anos" value="3" min="0" onchange="calcularInteres()">
+
+    <!-- Resultados -->
+    <div class="result">
+        <p><strong>Monto Principal: $<span id="montoPrincipal">1000.00</span></strong></p>
+        <p><strong>Interés Total: $<span id="interesTotal">0.00</span></strong></p>
+        <p><strong>Valor Total: $<span id="valorTotal">1000.00</span></strong></p>
+    </div>
+</div>
+
+<script>
+    function calcularInteres() {
+        var tipoInteres = document.getElementById("tipoInteres").value;
+        var capital = parseFloat(document.getElementById("capital").value);
+        var tasa = parseFloat(document.getElementById("tasa").value);
+        var anos = parseFloat(document.getElementById("anos").value);
+        var interesTotal, valorTotal;
+
+        if (tipoInteres === "simple") {
+            // Cálculo de interés simple
+            interesTotal = (capital * tasa * anos) / 100;
+            valorTotal = capital + interesTotal;
+        } else {
+            // Cálculo de interés compuesto
+            valorTotal = capital * Math.pow((1 + tasa / 100), anos);
+            interesTotal = valorTotal - capital;
+        }
+
+        // Mostrar resultados
+        document.getElementById("montoPrincipal").innerText = capital.toFixed(2);
+        document.getElementById("interesTotal").innerText = interesTotal.toFixed(2);
+        document.getElementById("valorTotal").innerText = valorTotal.toFixed(2);
+    }
+
+    // Calcular el interés por primera vez al cargar la página
+    calcularInteres();
+</script>
+
+</body>
+</html>
